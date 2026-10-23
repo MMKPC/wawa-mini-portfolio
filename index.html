@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="WAWA Mini: a local document-retrieval capstone by Matthew Mitchell. System design, measured results, and development notes.">
+  <meta name="theme-color" content="#142f35">
+  <title>WAWA Mini — Matthew Mitchell</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="WAWA Mini home"><span class="brand-mark" aria-hidden="true">w.</span><span>WAWA Mini<small>A project by Matthew Mitchell</small></span></a>
+      <nav class="site-nav" aria-label="Main navigation"><a href="index.html" aria-current="page">Project</a><a href="posts/index.html">Development log</a><a href="https://github.com/MMKPC">GitHub ↗</a></nav>
+    </div>
+  </header>
+  <main id="main" class="wrap" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Local retrieval / Capstone / 2026</p>
+        <h1 id="hero-title">Find the note.<br><em>Keep the source.</em></h1>
+        <p class="lede">WAWA Mini explores how keyword and semantic search can help retrieve studio design notes. It runs locally and returns original passages with source references.</p>
+        <a class="text-link" href="posts/introducing-wawa-mini.html">Meet the project <span aria-hidden="true">↗</span></a>
+      </div>
+      <aside class="study-card" aria-labelledby="pilot-title">
+        <p class="eyebrow">October engineering snapshot</p>
+        <h2 id="pilot-title">A small pilot.<br>A useful tradeoff.</h2>
+        <p>Mean Recall@5 on 25 answerable queries over 50 synthetic notes.</p>
+        <div class="signal" role="img" aria-label="Recall at 5: AND 24 percent, OR 98 percent, dense 100 percent">
+          <div class="signal-row" aria-hidden="true"><span>AND</span><div class="signal-track"><div class="signal-fill" style="width:24%"></div></div><span>24%</span></div>
+          <div class="signal-row" aria-hidden="true"><span>OR</span><div class="signal-track"><div class="signal-fill" style="width:98%"></div></div><span>98%</span></div>
+          <div class="signal-row" aria-hidden="true"><span>Dense</span><div class="signal-track"><div class="signal-fill" style="width:100%"></div></div><span>100%</span></div>
+        </div>
+        <p class="study-note">Dense search found one additional relevant source. OR search ranked the first relevant result better and ran much faster. This is an exploratory fixture, with no independent human validation.</p>
+      </aside>
+    </section>
+    <section class="section" aria-labelledby="system-title">
+      <div class="section-heading"><h2 id="system-title"><span class="section-number">01</span> One question, two paths.</h2></div>
+      <div class="overview">
+        <article><h3>Persistent keyword search</h3><p>SQLite FTS5 indexes document passages. Explicit AND and OR conditions make the matching policy visible and provide a strong baseline.</p></article>
+        <article><h3>Local semantic retrieval</h3><p>Ollama supplies Nomic embeddings. A persisted 768-dimensional snapshot is searched with exact cosine similarity.</p></article>
+        <article><h3>Evidence before claims</h3><p>Ranked source passages, automated checks, and recorded evaluation results make the behavior inspectable. Answer generation remains future work.</p></article>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="journal-title">
+      <div class="section-heading"><h2 id="journal-title"><span class="section-number">02</span> From the development log.</h2><a class="text-link" href="posts/index.html">All posts <span aria-hidden="true">↗</span></a></div>
+      <div class="journal-grid">
+        <article class="entry-card"><span class="topic">Introduction</span><h3><a href="posts/introducing-wawa-mini.html">Why WAWA Mini?</a></h3><p class="meta"><time datetime="2026-10-23">October 23, 2026</time> · Matthew Mitchell</p><p>From a COS550 foundation to a COS660 capstone: the problem, the scope, and the goals for local document retrieval.</p><a class="text-link" href="posts/introducing-wawa-mini.html">Read introduction <span aria-hidden="true">→</span></a></article>
+        <article class="entry-card"><span class="topic">October retrospective</span><h3><a href="posts/building-local-retrieval.html">What the retrieval pilot actually showed.</a></h3><p class="meta"><time datetime="2026-10-23">October 23, 2026</time> · Matthew Mitchell</p><p>Persistent indexes, local embeddings, and a result that made the keyword baseline more interesting.</p><a class="text-link" href="posts/building-local-retrieval.html">Read engineering log <span aria-hidden="true">→</span></a></article>
+      </div>
+    </section>
+    <section class="section about" aria-labelledby="about-title">
+      <div><p class="eyebrow">The developer</p><h2 id="about-title">Matthew Mitchell</h2><p class="meta">Software developer · MMKPC Studios</p></div>
+      <div><p>I build software and creative projects through MMKPC Studios. WAWA Mini is my graduate capstone continuation: a focused way to connect a practical studio problem with software engineering and a measurable retrieval experiment.</p><p>This site documents the project’s implemented behavior, the evidence collected so far, and the work still ahead.</p><p class="access-note">Application source: private repository; available to authorized reviewers. This public portfolio contains curated project descriptions and aggregate figures. <a href="https://github.com/MMKPC">Find MMKPC on GitHub</a>.</p></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><p>© 2026 Matthew Mitchell · MMKPC Studios</p><p>WAWA Mini / Project journal</p></div></footer>
+</body>
+</html>
