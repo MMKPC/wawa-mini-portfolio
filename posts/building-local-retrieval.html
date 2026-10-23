@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="October WAWA Mini retrospective: persistent SQLite search, local embeddings, synthetic pilot results, and the limits of the evidence.">
+  <meta name="theme-color" content="#142f35">
+  <title>What the Retrieval Pilot Actually Showed — WAWA Mini</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="WAWA Mini home"><span class="brand-mark" aria-hidden="true">w.</span><span>WAWA Mini<small>A project by Matthew Mitchell</small></span></a><nav class="site-nav" aria-label="Main navigation"><a href="../index.html">Project</a><a href="index.html">Development log</a><a href="https://github.com/MMKPC">GitHub ↗</a></nav></div></header>
+  <main id="main" class="wrap" tabindex="-1">
+    <header class="article-header"><a class="breadcrumb" href="index.html">← All development posts</a><p class="eyebrow">October retrospective / Engineering log</p><h1>What the retrieval pilot actually showed.</h1><p class="lede">Persistent search, a local embedding pipeline, and a keyword baseline that deserves to stay in the comparison.</p><p class="meta">By Matthew Mitchell · <time datetime="2026-10-23">October 23, 2026</time> · MMKPC Studios</p></header>
+    <div class="article-layout">
+      <aside class="article-aside" aria-label="On this page"><strong>In this post</strong><a href="#goal">Goal and strategy</a><a href="#implementation">What was built</a><a href="#results">Pilot results</a><a href="#challenges">Challenges</a><a href="#retrospective">Retrospective</a></aside>
+      <article class="article-body" aria-label="October engineering retrospective">
+        <p class="opening">This month’s work turned a local document project into a comparison between two retrieval approaches. The most useful outcome was a tradeoff, rather than a simple claim that semantic search was better.</p>
+        <h2 id="goal">Goal and strategy</h2>
+        <p>The problem is cross-document retrieval when a question and a design note use different vocabulary. WAWA Mini’s strategy is to preserve a keyword baseline, add a local semantic path, and compare their ranked source passages under the same small test fixture.</p>
+        <p>The keyword path has two explicit conditions: AND requires every query term, while OR allows any query term. Both use SQLite FTS5’s BM25 ranking. Keeping OR in the comparison matters: a restrictive AND baseline alone would make semantic retrieval look stronger than this pilot supports.</p>
+        <h2 id="implementation">What was built</h2>
+        <p>The Python command-line application now has persisted keyword and semantic snapshots. SQLite FTS5 handles text matching. Ollama supplies local Nomic embeddings with 768 dimensions; exact cosine similarity ranks the semantic candidates. Original passages and their source references remain the output.</p>
+        <figure><img src="../assets/architecture.png" width="1400" height="1056" alt="Document passages split into SQLite FTS5 keyword indexing and local Ollama semantic indexing. AND or OR with BM25 and query embeddings with exact cosine ranking both return ranked original passages with source references." loading="lazy" decoding="async"><figcaption><strong>Figure 1.</strong> The implemented retrieval paths. Both produce ranked source passages. This diagram shows the application architecture, not a browser interface or an answer-generation system.</figcaption></figure>
+        <p>The workflow includes explicit manual indexing and rebuilding. Model identity and snapshot checks help reject incompatible stored data. The recorded October 18 verification passed 115 automated tests; that is evidence from the milestone build, not a claim about a new test run today.</p>
+        <h2 id="results">What the pilot measured</h2>
+        <p>The exploratory fixture contains 50 synthetic notes and 30 queries: 25 answerable and five unsupported. Its relevance labels were created and reviewed with AI assistance and have no independent human validation. Quality averages below use the 25 answerable queries; warm end-to-end latency uses all 30 queries.</p>
+        <table class="results-table"><caption>Recorded pilot results · October 18, 2026</caption><thead><tr><th scope="col">Condition</th><th scope="col">Recall@5</th><th scope="col">MRR@5</th><th scope="col">Median ms</th></tr></thead><tbody><tr><th scope="row">Keyword AND</th><td>0.24</td><td>0.24</td><td>0.55</td></tr><tr><th scope="row">Keyword OR</th><td>0.98</td><td>1.00</td><td>0.68</td></tr><tr><th scope="row">Dense semantic</th><td>1.00</td><td>0.9533</td><td>644.37</td></tr></tbody></table>
+        <dl class="result-definitions"><dt>Recall@5</dt><dd>The fraction of a query’s labeled relevant sources found among its first five results, averaged across answerable queries.</dd><dt>MRR@5</dt><dd>Mean reciprocal rank: the average of one divided by the position of the first relevant result, with zero if none appears in the first five. A higher value means earlier first relevant results.</dd></dl>
+        <figure class="results"><img src="../assets/tradeoff.png" width="1400" height="1589" alt="Recall at 5 and MRR at 5 are both 0.24 for AND; OR scores 0.98 and 1.00; dense scores 1.00 and approximately 0.9533. Median warm latency is 0.55, 0.68, and 644.37 milliseconds, respectively, shown on a logarithmic axis." loading="lazy" decoding="async"><figcaption><strong>Figure 2.</strong> Quality and latency describe different parts of the tradeoff. The lower chart uses a logarithmic latency scale. Values summarize one recorded synthetic pilot and do not establish performance on a broader population.</figcaption></figure>
+        <p>Dense search added one additional relevant source for one question. OR already returned a relevant source first for every answerable query. Dense search put the first relevant source later for two queries, reducing its MRR. In this fixture, OR therefore had better first-result ranking and much lower latency.</p>
+        <h2 id="challenges">Challenges the evidence exposed</h2>
+        <p>The five unsupported queries are an important limitation. Both OR and dense search still returned candidates for all five. The application ranks passages; it does not reliably decide that a question has no answer. Adding generated responses without addressing this would introduce a separate grounding problem.</p>
+        <p>Timing also needs careful interpretation. The semantic measurement includes local HTTP communication, query embedding, identity checks, and search. It is not an isolated measure of vector comparison speed. Warm-up, a fixed evaluation order, and this small corpus further limit what can be inferred.</p>
+        <h2 id="retrospective">Retrospective and next steps</h2>
+        <p>The engineering result is a working, inspectable retrieval comparison. Persistent storage, explicit matching policies, and source-linked passages provide a stronger foundation than an unmeasured search demonstration. The result also makes the next priorities clearer: keep the OR baseline, profile the actual runtime, and expand to held-out real notes with independent human relevance judgments.</p>
+        <p>Exact vector scanning is simple enough to inspect at this scale, but this experiment does not establish large-corpus scalability. Manual rebuilds and a command-line interface also remain practical limits. A graphical interface, automatic watching, generated answers, and reliable abstention are future work.</p>
+        <p>The tools used for this increment are Python, SQLite FTS5, Ollama, Nomic embeddings, Git/GitHub, and automated tests. This public journal shares the design and aggregate observations; application code and underlying project materials remain in a private repository for authorized review.</p>
+        <nav class="article-end" aria-label="Article navigation"><a href="index.html">← All posts</a><a href="introducing-wawa-mini.html">Project introduction →</a></nav>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><p>© 2026 Matthew Mitchell · MMKPC Studios</p><p>Application source: private; authorized reviewers only.</p></div></footer>
+</body>
+</html>

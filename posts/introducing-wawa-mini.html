@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Introducing WAWA Mini: Matthew Mitchell’s capstone continuation exploring local search over studio design notes.">
+  <meta name="theme-color" content="#142f35">
+  <title>Why WAWA Mini? — Development Log</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="WAWA Mini home"><span class="brand-mark" aria-hidden="true">w.</span><span>WAWA Mini<small>A project by Matthew Mitchell</small></span></a><nav class="site-nav" aria-label="Main navigation"><a href="../index.html">Project</a><a href="index.html">Development log</a><a href="https://github.com/MMKPC">GitHub ↗</a></nav></div></header>
+  <main id="main" class="wrap" tabindex="-1">
+    <header class="article-header"><a class="breadcrumb" href="index.html">← All development posts</a><p class="eyebrow">Introduction / Project foundation</p><h1>Why WAWA Mini?</h1><p class="lede">A local search project with a practical studio question: how do you find a useful note when you no longer remember its wording?</p><p class="meta">By Matthew Mitchell · <time datetime="2026-10-23">October 23, 2026</time> · MMKPC Studios</p></header>
+    <div class="article-layout">
+      <aside class="article-aside" aria-label="On this page"><strong>In this post</strong><a href="#problem">The problem</a><a href="#foundation">The foundation</a><a href="#scope">Current scope</a><a href="#goals">What comes next</a></aside>
+      <article class="article-body" aria-label="Why WAWA Mini article">
+        <p class="opening">A design note can be useful long after the words used to describe it have changed. WAWA Mini is my exploration of that retrieval problem.</p>
+        <h2 id="problem">The studio problem</h2>
+        <p>Development produces notes about mechanics, systems, and decisions. Searching across those documents becomes difficult when a question uses different language from the original note. A literal match is useful when the wording is known; semantic retrieval offers another way to rank potentially relevant passages.</p>
+        <p>My goal is to make that difference visible and measurable. The intended studio use is finding source material that can support ongoing work, with enough context to inspect where each result came from.</p>
+        <h2 id="foundation">Continuing an existing foundation</h2>
+        <p>WAWA Mini began in COS550 and continues as my COS660 graduate capstone. The capstone builds on the existing Python project rather than starting a separate product. The current increment adds persistent cross-document retrieval and an evaluation that compares explicit keyword conditions with local semantic search.</p>
+        <p>SQLite FTS5 supplies the keyword index. Ollama runs the embedding model locally, and the application stores a semantic snapshot for later searches. Results are ranked original passages with source references. This keeps the work centered on retrieval behavior and software reliability.</p>
+        <h2 id="scope">A focused, inspectable tool</h2>
+        <p>The implemented interface is a command-line application. Indexing and rebuilding are manual. It supports keyword and semantic retrieval; generated answers, a graphical interface, and automatic document watching are future possibilities.</p>
+        <div class="callout"><p><strong>Local retrieval, clear limits.</strong> The software runs its retrieval workflow locally. The current pilot uses synthetic notes and relevance labels without independent human validation, so its results describe that fixture rather than real studio-wide effectiveness.</p></div>
+        <h2 id="goals">What this journal will track</h2>
+        <p>This portfolio records implemented features, technical decisions, evidence, and limitations. The immediate direction is to examine performance, strengthen evaluation, and keep the claims proportionate to what the software actually demonstrates.</p>
+        <p>The first <a href="building-local-retrieval.html">October engineering retrospective</a> explains the retrieval paths, the strongest baseline, and why the pilot’s results do not establish a general winner.</p>
+        <nav class="article-end" aria-label="Article navigation"><a href="index.html">← All posts</a><a href="building-local-retrieval.html">Read the October retrospective →</a></nav>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><p>© 2026 Matthew Mitchell · MMKPC Studios</p><p>Application source: private; authorized reviewers only.</p></div></footer>
+</body>
+</html>
