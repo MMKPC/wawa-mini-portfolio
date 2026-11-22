@@ -1,4 +1,4 @@
-/* WAWA Mini: static project journal. No external fonts or scripts. */
+/* AYO Mini (formerly WAWA Mini): static project journal. No external fonts or scripts. */
 :root {
   --paper: #f7f7f2;
   --surface: #ffffff;
@@ -35,6 +35,11 @@ code { font: .87em var(--mono); overflow-wrap: anywhere; }
 .brand { display: flex; align-items: center; gap: .8rem; color: var(--ink); text-decoration: none; font-size: 1.1rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.2; }
 .brand-mark { width: 38px; height: 38px; background: var(--accent); color: white; display: grid; place-items: center; border-radius: 9px 9px 9px 2px; font: 700 1.1rem var(--mono); }
 .brand small { display: block; font: .65rem/1.8 var(--mono); text-transform: uppercase; letter-spacing: .13em; color: var(--muted); }
+.brand s { color: var(--muted); font-weight: 400; margin-right: .3em; }
+.naming-note { margin-block: 1.8rem 0; padding: 1.2rem 1.4rem; background: var(--soft); border-left: 3px solid var(--accent); }
+.naming-note .rename-title { margin-bottom: .45rem; font-size: 1.15rem; }
+.naming-note s { color: var(--muted); margin-right: .65em; }
+.naming-note > p:last-child { margin-bottom: 0; max-width: 84ch; font-size: .95rem; }
 .site-nav { display: flex; flex-wrap: wrap; gap: 1.8rem; font-size: .9rem; }
 .site-nav a { text-decoration: none; color: var(--muted); padding-block: .45rem; }
 .site-nav a:hover, .site-nav a[aria-current] { color: var(--accent); box-shadow: 0 2px var(--accent); }
