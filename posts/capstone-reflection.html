@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Matthew Mitchell's capstone reflection: how each CSMS course built AYO Mini, what was hard, and where the work goes next.">
+  <meta name="theme-color" content="#142f35">
+  <title>Capstone reflection — AYO Mini</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <style>
+    .video-frame{margin:1.5rem 0 2rem}
+    .video-frame video{width:100%;height:auto;display:block;border-radius:6px;background:#0d1117}
+    .video-frame figcaption{font-size:.9rem;opacity:.75;margin-top:.5rem}
+    .course{margin:1.75rem 0}
+    .course h3{margin-bottom:.25rem}
+    .course .when{font-size:.9rem;opacity:.7;margin:0 0 .5rem}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header"><div class="wrap header-inner"><a class="brand" href="../index.html" aria-label="AYO Mini home, formerly WAWA Mini"><span class="brand-mark" aria-hidden="true">a.</span><span><s>WAWA</s> AYO Mini<small>A project by Matthew Mitchell</small></span></a><nav class="site-nav" aria-label="Main navigation"><a href="../index.html">Project</a><a href="index.html">Development log</a><a href="https://github.com/MMKPC">GitHub ↗</a></nav></div></header>
+  <main id="main" class="wrap" tabindex="-1">
+    <header class="article-header"><a class="breadcrumb" href="index.html">← All development posts</a><p class="eyebrow">Capstone reflection / CSMS, AI Certificate</p><h1>From WAWA Mini to a defended capstone</h1><p class="lede">How each course built AYO Mini, what was hard, and where the work goes next.</p><p class="meta">By Matthew Mitchell · <time datetime="2026-11-22">November 22, 2026</time> · MMKPC Studios</p></header>
+    <div class="article-layout">
+      <aside class="article-aside" aria-label="On this page"><strong>In this post</strong><a href="#reflection">Reflection video</a><a href="#demo">Project demo</a><a href="#courses">Course by course</a><a href="#hard">What was hard</a><a href="#program">The program</a><a href="#advice">For new students</a></aside>
+      <article class="article-body" aria-label="Capstone reflection">
+        <p class="opening">On November 20, 2026, I defended AYO Mini and the committee passed it. This post closes the capstone: what I built, how each class fed into it, and what I would tell the next student.</p>
+
+        <h2 id="reflection">Reflection video</h2>
+        <figure class="video-frame">
+          <video controls preload="metadata" src="../assets/video/Capstone_Portfolio_Reflection.mp4"></video>
+          <figcaption>2 min 42 s · class by class, the capstone results, and where I go from here. Captioned.</figcaption>
+        </figure>
+
+        <h2 id="demo">Project demo: the Rafy pages</h2>
+        <p>AYO Mini retrieves original passages from local game design notes. For the final build I extended it to a short film, Rafy: pick any frame and AYO Mini returns the shot's note and the documented cue for that moment, with its source. The second page puts each scene note beside the exact still.</p>
+        <figure class="video-frame">
+          <video controls preload="metadata" src="../assets/video/AYO_Mini_Rafy_Demo.mp4"></video>
+          <figcaption>2 min 40 s · frame lookup, scene notes, then how keyword, semantic and hybrid search fit together. Captioned.</figcaption>
+        </figure>
+
+        <h2 id="courses">How each course contributed</h2>
+        <section class="course"><h3>COS550 · Advanced Software Engineering</h3><p class="when">July 2026</p>
+          <p>This is where the project started. I built WAWA Mini, a Python command-line tool that reads a game design document, summarizes each section with a local Phi-3 model and assembles a production map. The design document, the Git workflow and the unit tests from this course are the base the capstone grew from. Lesson: a written design and real tests make the next course easier, because you are extending something instead of starting over.</p></section>
+        <section class="course"><h3>COS570 · Advanced AI</h3><p class="when">August 2026</p>
+          <p>Five projects in four weeks: a smart-city traffic and energy simulation, a chatbot, face aging, generative language and autonomous drones, plus an IEEE signature article and weekly reflections. The pace taught me to measure first and claim only what the numbers show. That habit is why my thesis reports what the fixture shows and not more.</p></section>
+        <section class="course"><h3>COS580 · Machine Learning</h3><p class="when">September 2026</p>
+          <p>Regression, clustering and classification with pandas and scikit-learn. This is where evaluation metrics became a habit. AYO Mini is scored with Recall@5 and MRR@5 on a labeled fixture because of this course.</p></section>
+        <section class="course"><h3>COS660 · Capstone: Development I</h3><p class="when">September – October 2026</p>
+          <p>WAWA Mini became AYO Mini. I added a persistent SQLite FTS5 keyword index, then local Nomic embeddings for semantic search, and shipped a milestone each week with Asana tracking, an advisor and my first thesis draft.</p></section>
+        <section class="course"><h3>COS680 · Deployment and Professional Presentation</h3><p class="when">October – November 2026</p>
+          <p>Hybrid search with reciprocal rank fusion, the Rafy scene-notes pages on AYO Mini 0.5.1, the final thesis, my resume and the defense. On the October 23 fixture, OR/BM25 reached 0.980 macro Recall@5 and 1.000 MRR@5 with a 0.96 ms median ranking time.</p></section>
+
+        <h2 id="hard">What was hard, and what would have helped</h2>
+        <p><strong>Finding an advisor.</strong> My first choice was at capacity, and my advisor, Dr. Moody Amakobe, was confirmed through Dr. Leis in week two. An advisor assigned at the start of Development I would have saved a week of work done without one.</p>
+        <p><strong>Evaluating honestly.</strong> My fixture uses synthetic notes and labels without independent judges, so it cannot prove which method wins on real studio work. More curriculum time on evaluation design, such as held-out sets and independent labeling, would help every data science capstone.</p>
+        <p><strong>Semantic search is slower.</strong> Dense and hybrid search took about a second per query against under a millisecond for keyword search. Knowing that trade-off early shaped what the tool does by default.</p>
+
+        <h2 id="program">The program</h2>
+        <p>The most useful part was continuity. I carried one project through several courses, so each class added a layer instead of a throwaway assignment. Feedback came with each graded milestone and was specific; the design-document note to show what my advisor changed is one I acted on. The improvement I would suggest is earlier advisor matching, and a GitHub workflow that replaces the retired GitHub Classroom link.</p>
+        <p>How I build software changed: smaller pieces, measured before I claim anything. How I evaluate it changed too. A retrieved passage is only useful if a person checks the original before a draft becomes a rule. This tool is not autonomous, and it should not be.</p>
+        <p>Next, I am building my own studio, with AYO Mini as one of its tools, and testing it on permission-cleared production notes. The committee also suggested a PhD, and I am taking that seriously.</p>
+
+        <h2 id="advice">For students starting the capstone</h2>
+        <p>Lock in your advisor in week one. Keep one project alive across courses. Measure before you claim, and keep your evidence (commits, screenshots, test runs) as you go, not the night before.</p>
+
+        <div class="callout"><p><strong>How this post was made.</strong> The videos are narrated with an ElevenLabs synthetic voice. The narration and much of this text come from my own words in the defense recording; AI assistance helped organize them and assemble the videos.</p></div>
+        <nav class="article-end" aria-label="Article navigation"><a href="index.html">← All posts</a><a href="building-local-retrieval.html">Read the October retrospective →</a></nav>
+      </article>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><p>© 2026 Matthew Mitchell · MMKPC Studios</p><p><a href="../index.html">Back to the project</a></p></div></footer>
+</body>
+</html>
